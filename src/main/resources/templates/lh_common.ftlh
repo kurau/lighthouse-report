@@ -16,9 +16,7 @@
 <div class="container">
     <h3 class="url">Median</h3>
     <h3 class="url">${url}</h3>
-<#--    <h3 >${times} times</h3>-->
-    <h3 >Cookie: ${cookie}</h3>
-<#--    <h3 >Score Median: ${scoreMed}</h3>-->
+    <h3 >Device: ${device}</h3>
 
     <div class="responsive">
 
@@ -33,12 +31,16 @@
             </thead>
             <tbody>
             <#list diff as item_d>
-                <tr>
-                    <td data-title="Metric" data-value="${item_d.title}"><a href="">${item_d.title}</a></td>
-                    <td data-title="med test" data-value="${item_d.actualMed}">${item_d.actualMed} ms</td>
-                    <td data-title="med prod" data-value="${item_d.toCompareMed}">${item_d.toCompareMed} ms</td>
-                    <td data-title="delta" style="${item_d.color}" data-value="${item_d.diffMed}">${item_d.diffMed} ms</td>
-                </tr>
+                <#if item_d.important>
+                    <tr style="font-weight:bold">
+                <#else>
+                    <tr>
+                </#if>
+                        <td data-title="Metric" data-value="${item_d.title}"><a href="">${item_d.title}</a></td>
+                        <td data-title="med test" data-value="${item_d.actualMed}">${item_d.actualMed} ms</td>
+                        <td data-title="med prod" data-value="${item_d.toCompareMed}">${item_d.toCompareMed} ms</td>
+                        <td data-title="delta" style="${item_d.color}" data-value="${item_d.diffMed}">${item_d.diffMed} ms</td>
+                    </tr>
             </#list>
 
             </tbody>

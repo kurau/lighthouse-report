@@ -10,6 +10,7 @@ import static java.lang.Math.toIntExact;
 public class MetricUtil {
 
     public static int median(List<Long> sets){
+        Collections.sort(sets);
         int med;
         int middle = sets.size()/2;
         if (sets.size()%2 == 1) {

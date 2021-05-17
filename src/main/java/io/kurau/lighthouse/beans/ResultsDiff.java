@@ -19,9 +19,8 @@ public class ResultsDiff {
     private MetricDiff serverResponseTime;
 
     public List<MetricDiff> toList() {
-        return asList(firstContentfulPaint, speedIndex, largestContentfulPaint,
-                interactive, totalBlockingTime, cumulativeLayoutShift,
-                serverResponseTime);
+        return asList(largestContentfulPaint, totalBlockingTime, cumulativeLayoutShift, firstContentfulPaint,
+                speedIndex, interactive, serverResponseTime);
     }
 
 }

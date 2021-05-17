@@ -13,6 +13,7 @@ public class MetricDiff {
     private long diffMed;
     private String title;
     private String color = "background-color: #ff9c9c;";
+    private boolean important = false;
 
     public MetricDiff print() {
         System.out.println(String.format("%s, %s, %s, %s, %s", actualMed, toCompareMed, diffMed, title, color));

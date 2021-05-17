@@ -19,18 +19,23 @@ public class ResultsContainer {
     private MetricResult serverResponseTime;
 
     public List<MetricResult> toList() {
-        return asList(firstContentfulPaint, speedIndex, largestContentfulPaint,
-                interactive, totalBlockingTime, cumulativeLayoutShift,serverResponseTime);
+        return asList(largestContentfulPaint, totalBlockingTime, cumulativeLayoutShift, firstContentfulPaint,
+                speedIndex, interactive, serverResponseTime);
     }
 
     public ResultsDiff diff(ResultsContainer toCompare) {
         ResultsDiff diff = new ResultsDiff();
+
+        diff.setLargestContentfulPaint(compareMed(largestContentfulPaint,
+                toCompare.getLargestContentfulPaint()).setImportant(true));
+        diff.setCumulativeLayoutShift(compareMed(cumulativeLayoutShift,
+                toCompare.getCumulativeLayoutShift()).setImportant(true));
+        diff.setTotalBlockingTime(compareMed(totalBlockingTime,
+                toCompare.getTotalBlockingTime()).setImportant(true));
+
         diff.setFirstContentfulPaint(compareMed(firstContentfulPaint, toCompare.getFirstContentfulPaint()));
         diff.setSpeedIndex(compareMed(speedIndex, toCompare.getSpeedIndex()));
-        diff.setLargestContentfulPaint(compareMed(largestContentfulPaint, toCompare.getLargestContentfulPaint()));
         diff.setInteractive(compareMed(interactive, toCompare.getInteractive()));
-        diff.setTotalBlockingTime(compareMed(totalBlockingTime, toCompare.getTotalBlockingTime()));
-        diff.setCumulativeLayoutShift(compareMed(cumulativeLayoutShift, toCompare.getCumulativeLayoutShift()));
         diff.setServerResponseTime(compareMed(serverResponseTime, toCompare.getServerResponseTime()));
         return diff;
     }

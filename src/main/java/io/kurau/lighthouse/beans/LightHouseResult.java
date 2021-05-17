@@ -39,6 +39,7 @@ public class LightHouseResult {
         private String id;
         private String title;
         private String numericValue;
+        private String displayValue;
     }
 
     @Getter@Setter
