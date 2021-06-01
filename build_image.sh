@@ -1,6 +1,6 @@
 mvn clean install spring-boot:repackage
 
-VERSION=0.5
+VERSION=0.6
 
 docker build -t kurau/lh-java-report:${VERSION} .
 

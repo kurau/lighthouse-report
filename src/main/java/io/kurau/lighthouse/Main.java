@@ -70,6 +70,7 @@ public class Main {
         root.put("cookie", System.getenv("COOKIE"));
         root.put("device", System.getenv("DEVICE"));
         root.put("url", testResults.get(0).getFinalUrl());
+        root.put("prodUrl", prodResults.get(0).getFinalUrl());
         root.put("test", test.toList());
         root.put("prod", prod.toList());
         root.put("testScore", median(testScore));

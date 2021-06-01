@@ -14,9 +14,11 @@
 </div>
 
 <div class="container">
-    <h3 class="url">Median</h3>
-    <h3 class="url">${url}</h3>
-    <h3 >Device: ${device}</h3>
+    <h4 class="url">Test: ${testScore}</h4>
+    <h5 class="url">${url}</h5>
+    <h4 class="url">Prod: ${prodScore}</h4>
+    <h5 class="url">${prodUrl}</h5>
+    <h4 >Device: ${device}</h4>
 
     <div class="responsive">
 
