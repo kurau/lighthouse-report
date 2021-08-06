@@ -14,9 +14,9 @@ public class MetricUtil {
         int med;
         int middle = sets.size()/2;
         if (sets.size()%2 == 1) {
-            med = toIntExact((sets.get(middle) + sets.get(middle - 1)) / 2);
-        } else {
             med = toIntExact(sets.get(middle));
+        } else {
+            med = toIntExact((sets.get(middle) + sets.get(middle - 1)) / 2);
         }
         return med;
     }

@@ -44,7 +44,28 @@
                         <td data-title="delta" style="${item_d.color}" data-value="${item_d.diffMed}">${item_d.diffMed} ms</td>
                     </tr>
             </#list>
-
+            </tbody>
+            <thead>
+            <tr>
+                <th>Compare Server Timings</th>
+                <th>med test</th>
+                <th>med prod</th>
+                <th>delta</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list extDiff as item_d>
+                <#if item_d.important>
+                    <tr style="font-weight:bold">
+                <#else>
+                    <tr>
+                </#if>
+                <td data-title="Metric" data-value="${item_d.title}"><a href="">${item_d.title}</a></td>
+                <td data-title="med test" data-value="${item_d.actualMed}">${item_d.actualMed} ms</td>
+                <td data-title="med prod" data-value="${item_d.toCompareMed}">${item_d.toCompareMed} ms</td>
+                <td data-title="delta" style="${item_d.color}" data-value="${item_d.diffMed}">${item_d.diffMed} ms</td>
+                </tr>
+            </#list>
             </tbody>
         </table>
 
@@ -60,6 +81,24 @@
             </thead>
             <tbody>
             <#list test as item>
+                <tr>
+                    <td data-title="Metric" data-value="${item.title}"><a href="${item.href}">${item.title} - ${item.size}</a></td>
+                    <td data-title="min" data-value="${item.min}">${item.min} ms</td>
+                    <td data-title="median" data-value="${item.med}">${item.med} ms</td>
+                    <td data-title="max" data-value="${item.max}">${item.max} ms</td>
+                </tr>
+            </#list>
+            </tbody>
+            <thead>
+            <tr>
+                <th>Test Server Timings</th>
+                <th>min</th>
+                <th>median</th>
+                <th>max</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list extTest as item>
                 <tr>
                     <td data-title="Metric" data-value="${item.title}"><a href="${item.href}">${item.title} - ${item.size}</a></td>
                     <td data-title="min" data-value="${item.min}">${item.min} ms</td>
@@ -89,7 +128,24 @@
                     <td data-title="max" data-value="${item_p.max}">${item_p.max} ms</td>
                 </tr>
             </#list>
-
+            </tbody>
+            <thead>
+            <tr>
+                <th>Prod Server Timings</th>
+                <th>min</th>
+                <th>median</th>
+                <th>max</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list extProd as item>
+                <tr>
+                    <td data-title="Metric" data-value="${item.title}"><a href="${item.href}">${item.title} - ${item.size}</a></td>
+                    <td data-title="min" data-value="${item.min}">${item.min} ms</td>
+                    <td data-title="median" data-value="${item.med}">${item.med} ms</td>
+                    <td data-title="max" data-value="${item.max}">${item.max} ms</td>
+                </tr>
+            </#list>
             </tbody>
         </table>
 

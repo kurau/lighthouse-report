@@ -1,5 +1,6 @@
 package io.kurau.lighthouse.beans;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,9 @@ public class LightHouseResult {
 
         @SerializedName("server-response-time")
         private Metric serverResponseTime;
+
+        @SerializedName("server-timings")
+        private ServerTimings serverTimings;
     }
 
     @Getter@Setter
@@ -48,6 +52,15 @@ public class LightHouseResult {
         @Getter@Setter
         public static class Performance {
             public float score;
+        }
+    }
+
+    @Getter@Setter
+    public static class ServerTimings {
+        private Timings details;
+        @Getter@Setter
+        public static class Timings {
+            public JsonObject timings;
         }
     }
 }

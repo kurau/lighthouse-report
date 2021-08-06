@@ -19,4 +19,14 @@ public class MetricResult {
     public static MetricResult metricResult() {
         return new MetricResult();
     }
+
+    public MetricResultExt toExt() {
+        return new MetricResultExt()
+                .setTitle(title)
+                .setHref(href)
+                .setSize(size)
+                .setMin((double) min / 1000)
+                .setMax((double) max / 1000)
+                .setMed((double) med / 1000);
+    }
 }

@@ -19,4 +19,12 @@ public class MetricDiff {
         System.out.println(String.format("%s, %s, %s, %s, %s", actualMed, toCompareMed, diffMed, title, color));
         return this;
     }
+
+    public MetricDiffExt toExt() {
+        return new MetricDiffExt()
+                .setActualMed((double) actualMed/1000)
+                .setToCompareMed((double) toCompareMed/1000)
+                .setDiffMed((double) diffMed/1000)
+                .setTitle(title).setColor(color).setImportant(important);
+    }
 }

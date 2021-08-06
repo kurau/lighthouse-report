@@ -3,7 +3,9 @@ package io.kurau.lighthouse.beans;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static java.util.Arrays.asList;
 
@@ -18,9 +20,17 @@ public class ResultsContainer {
     private MetricResult cumulativeLayoutShift;
     private MetricResult serverResponseTime;
 
+    private List<MetricResult> extMetric = new ArrayList<>();
+
     public List<MetricResult> toList() {
         return asList(largestContentfulPaint, totalBlockingTime, cumulativeLayoutShift, firstContentfulPaint,
                 speedIndex, interactive, serverResponseTime);
+    }
+
+    public List<MetricResultExt> toExtList() {
+        List<MetricResultExt> resultExt = new ArrayList<>();
+        extMetric.forEach(em -> resultExt.add(em.toExt()));
+        return resultExt;
     }
 
     public ResultsDiff diff(ResultsContainer toCompare) {
@@ -37,6 +47,9 @@ public class ResultsContainer {
         diff.setSpeedIndex(compareMed(speedIndex, toCompare.getSpeedIndex()));
         diff.setInteractive(compareMed(interactive, toCompare.getInteractive()));
         diff.setServerResponseTime(compareMed(serverResponseTime, toCompare.getServerResponseTime()));
+        // diff
+        IntStream.range(0, extMetric.size())
+                .forEach(i -> diff.getExtMetric().add(compareMed(extMetric.get(i), toCompare.getExtMetric().get(i))));
         return diff;
     }
 

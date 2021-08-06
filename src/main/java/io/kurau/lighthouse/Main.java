@@ -30,6 +30,8 @@ import static java.util.stream.Collectors.toList;
 
 public class Main {
 
+    private static final String BASE_PATH = ".";
+
     private static List<LightHouseResult> testResults = new ArrayList<>();
     private static List<LightHouseResult> prodResults = new ArrayList<>();
 
@@ -41,7 +43,7 @@ public class Main {
     // lcp cls tbt
 
     public static void main(String[] args) throws IOException {
-        testResults = Files.walk(Paths.get("."))
+        testResults = Files.walk(Paths.get(BASE_PATH))
                 .filter(f -> f.toAbsolutePath().toString().contains("test"))
                 .filter(f -> f.toAbsolutePath().toString().contains("lighthouse.json"))
                 .map(f -> {
@@ -51,7 +53,7 @@ public class Main {
                 })
                 .collect(toList());
 
-        prodResults = Files.walk(Paths.get("."))
+        prodResults = Files.walk(Paths.get(BASE_PATH))
                 .filter(f -> f.toAbsolutePath().toString().contains("prod"))
                 .filter(f -> f.toAbsolutePath().toString().contains("lighthouse.json"))
                 .map(f -> new Gson().fromJson(getResourceAsString(f.toAbsolutePath().toString()),
@@ -73,9 +75,12 @@ public class Main {
         root.put("prodUrl", prodResults.get(0).getFinalUrl());
         root.put("test", test.toList());
         root.put("prod", prod.toList());
+        root.put("extTest", test.toExtList());
+        root.put("extProd", prod.toExtList());
         root.put("testScore", median(testScore));
         root.put("prodScore", median(prodScore));
         root.put("diff", test.diff(prod).toList());
+        root.put("extDiff", test.diff(prod).toExtList());
 
         writeResult();
         copyResources();
@@ -112,6 +117,20 @@ public class Main {
                 (parseDouble(r.getAudits().getCumulativeLayoutShift().getDisplayValue())) * 1000 + "");
 
         List<Long> serverResponseTime = extract("srt", results, r -> r.getAudits().getServerResponseTime().getNumericValue());
+
+        Map<String, List<Long>> serverTimings = new HashMap<>();
+        results.forEach(
+                r -> r.getAudits().getServerTimings().getDetails().getTimings().entrySet().forEach(
+                        e -> {
+                            if (!serverTimings.containsKey(e.getKey())) {
+                                serverTimings.put(e.getKey(), new ArrayList<>());
+                            }
+                            serverTimings.get(e.getKey())
+                                    .add(toLong(e.getValue().getAsJsonObject().get("numericValue").getAsDouble() * 1000 + ""));
+                        }));
+
+        serverTimings.entrySet().forEach(e -> container.getExtMetric()
+                .add(createResult(e.getValue()).setTitle(e.getKey()).setHref("#")));
 
         container.setLargestContentfulPaint(createResult(largestContentfulPaint)
                 .setTitle("largest-contentful-paint")
