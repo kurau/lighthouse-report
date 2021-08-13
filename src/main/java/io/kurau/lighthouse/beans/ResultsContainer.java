@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
@@ -47,9 +47,15 @@ public class ResultsContainer {
         diff.setSpeedIndex(compareMed(speedIndex, toCompare.getSpeedIndex()));
         diff.setInteractive(compareMed(interactive, toCompare.getInteractive()));
         diff.setServerResponseTime(compareMed(serverResponseTime, toCompare.getServerResponseTime()));
+
         // diff
-        IntStream.range(0, extMetric.size())
-                .forEach(i -> diff.getExtMetric().add(compareMed(extMetric.get(i), toCompare.getExtMetric().get(i))));
+        extMetric.forEach(em -> {
+            String metricTitle = em.getTitle();
+            Optional<MetricResult> metricResult =  toCompare.getExtMetric().stream()
+                    .filter(m -> m.getTitle().equals(metricTitle)).findFirst();
+            metricResult.ifPresent(result -> diff.getExtMetric().add(compareMed(em, result)));
+        });
+
         return diff;
     }
 

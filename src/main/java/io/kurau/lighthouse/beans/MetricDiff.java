@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@Getter@Setter
+@Getter
+@Setter
 @Accessors(chain = true)
 public class MetricDiff {
 
@@ -22,9 +23,9 @@ public class MetricDiff {
 
     public MetricDiffExt toExt() {
         return new MetricDiffExt()
-                .setActualMed((double) actualMed/1000)
-                .setToCompareMed((double) toCompareMed/1000)
-                .setDiffMed((double) diffMed/1000)
+                .setActualMed((double) actualMed / 1000)
+                .setToCompareMed((double) toCompareMed / 1000)
+                .setDiffMed((double) diffMed / 1000)
                 .setTitle(title).setColor(color).setImportant(important);
     }
 }

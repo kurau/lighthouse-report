@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static io.kurau.lighthouse.utils.MetricUtil.createResult;
@@ -120,14 +121,25 @@ public class Main {
 
         Map<String, List<Long>> serverTimings = new HashMap<>();
         results.forEach(
-                r -> r.getAudits().getServerTimings().getDetails().getTimings().entrySet().forEach(
-                        e -> {
-                            if (!serverTimings.containsKey(e.getKey())) {
-                                serverTimings.put(e.getKey(), new ArrayList<>());
-                            }
-                            serverTimings.get(e.getKey())
-                                    .add(toLong(e.getValue().getAsJsonObject().get("numericValue").getAsDouble() * 1000 + ""));
-                        }));
+                r -> {
+                    try {
+                        Optional.ofNullable(r.getAudits().getServerTimings().getDetails().getTimings())
+                                .ifPresent(jsonObject -> jsonObject.entrySet().forEach(
+                                        e -> {
+                                            try {
+                                                if (!serverTimings.containsKey(e.getKey())) {
+                                                    serverTimings.put(e.getKey(), new ArrayList<>());
+                                                }
+                                                serverTimings.get(e.getKey())
+                                                        .add(toLong(e.getValue().getAsJsonObject().get("numericValue").getAsDouble() * 1000 + ""));
+                                            } catch (Exception ex) {
+                                                ex.printStackTrace();
+                                            }
+                                        }));
+                    } catch (Exception tmngs) {
+                        tmngs.printStackTrace();
+                    }
+                });
 
         serverTimings.entrySet().forEach(e -> container.getExtMetric()
                 .add(createResult(e.getValue()).setTitle(e.getKey()).setHref("#")));
